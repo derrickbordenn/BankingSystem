@@ -67,4 +67,21 @@ public class CommandValidator {
 		float balanceToFloat = Float.parseFloat(balance);
 		return (balanceToFloat >= 1000 && balanceToFloat <= 10000);
 	}
+
+	public boolean validDeposit(String amount) {
+		int periodCount = 0;
+		for (char c : amount.toCharArray()) {
+			if (!Character.isDigit(c) && c != '.') {
+				return false;
+			}
+			if (c == '.') {
+				periodCount++;
+			}
+		}
+		if (periodCount > 1) {
+			return false;
+		}
+		float amountToFloat = Float.parseFloat(amount);
+		return (amountToFloat >= 0);
+	}
 }
