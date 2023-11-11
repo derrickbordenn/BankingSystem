@@ -1,6 +1,6 @@
 public class SavingsAccount extends Account {
-    public SavingsAccount(String id, double apr) {
-        super(id, apr);
-    }
+	public SavingsAccount(int id, double apr) {
+		super(id, apr);
+	}
 
 }
