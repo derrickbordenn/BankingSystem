@@ -1,3 +1,4 @@
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -99,5 +100,125 @@ public class CommandValidatorTest {
 	void create_cd_capital_letters() {
 		boolean actual = commandValidator.validate("create cD 12345678 0.6 2500");
 		assertTrue(actual);
+	}
+
+	@Test
+	void account_with_no_id() {
+		boolean actual = commandValidator.validate("create savings 2.4");
+		assertFalse(actual);
+	}
+
+	@Test
+	void cd_with_no_id() {
+		boolean actual = commandValidator.validate("create cd 2.4 1200");
+		assertFalse(actual);
+	}
+
+	@Test
+	void account_with_no_apr() {
+		boolean actual = commandValidator.validate("create savings 12345678");
+		assertFalse(actual);
+	}
+
+	@Test
+	void cd_with_no_apr() {
+		boolean actual = commandValidator.validate("create cd 12345678 1200");
+		assertFalse(actual);
+	}
+
+	@Test
+	void cd_with_no_initial_balance() {
+		boolean actual = commandValidator.validate("create cd 12345678 2.4");
+		assertFalse(actual);
+	}
+
+	@Test
+	void nonexistent_account_type() {
+		boolean actual = commandValidator.validate("create account 12345678 2.4");
+		assertFalse(actual);
+	}
+
+	@Test
+	void account_with_no_attributes() {
+		boolean actual = commandValidator.validate("create savings");
+		assertFalse(actual);
+	}
+
+	@Test
+	void account_with_negative_apr() {
+		boolean actual = commandValidator.validate("create savings 12345679 -2.3");
+		assertFalse(actual);
+	}
+
+	@Test
+	void account_with_big_apr() {
+		boolean actual = commandValidator.validate("create savings 12345679 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void cd_with_negative_initial_balance() {
+		boolean actual = commandValidator.validate("create cd 12345679 2.3 -100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void small_cd_initial_balance() {
+		boolean actual = commandValidator.validate("create cd 12345679 2.3 100");
+		assertFalse(actual);
+	}
+
+	@Test
+	void big_cd_initial_balance() {
+		boolean actual = commandValidator.validate("create cd 12345679 2.3 100000");
+		assertFalse(actual);
+	}
+
+	@Test
+	void id_not_enough_digits() {
+		boolean actual = commandValidator.validate("create savings 1234567 2.3");
+		assertFalse(actual);
+	}
+
+	@Test
+	void id_too_many_digits() {
+		boolean actual = commandValidator.validate("create savings 123456789 2.3");
+		assertFalse(actual);
+	}
+
+	@Test
+	void non_numeric_characters_in_id() {
+		boolean actual = commandValidator.validate("create savings 1234567a 2.3");
+		assertFalse(actual);
+	}
+
+	@Test
+	void non_numeric_character_in_initial_balance() {
+		boolean actual = commandValidator.validate("create cd 12345678 2.3 twenty");
+		assertFalse(actual);
+	}
+
+	@Test
+	void non_numeric_character_in_apr() {
+		boolean actual = commandValidator.validate("create savings 12345678 two.2");
+		assertFalse(actual);
+	}
+
+	@Test
+	void invalid_float_apr() {
+		boolean actual = commandValidator.validate("create savings 12345678 2.3.2");
+		assertFalse(actual);
+	}
+
+	@Test
+	void decimal_in_id() {
+		boolean actual = commandValidator.validate("create cd 12.45678 2.3 twenty");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_with_no_attributes() {
+		boolean actual = commandValidator.validate("create");
+		assertFalse(actual);
 	}
 }
