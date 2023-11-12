@@ -221,4 +221,28 @@ public class CommandValidatorTest {
 		boolean actual = commandValidator.validate("create");
 		assertFalse(actual);
 	}
+
+	@Test
+	void deposit_integer_into_account() {
+		boolean actual = commandValidator.validate("deposit 12345678 1000");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_float_into_account() {
+		boolean actual = commandValidator.validate("deposit 12345678 100.1");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_zero_into_account() {
+		boolean actual = commandValidator.validate("deposit 12345678 0");
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_negative_into_account() {
+		boolean actual = commandValidator.validate("deposit 12345678 -1000");
+		assertFalse(actual);
+	}
 }
