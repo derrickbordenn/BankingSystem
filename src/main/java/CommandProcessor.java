@@ -26,7 +26,6 @@ public class CommandProcessor {
 			int id = Integer.parseInt(commandParts[1]);
 			double amount = Double.parseDouble(commandParts[2]);
 			bank.depositById(id, amount);
-
 		}
 	}
 }
