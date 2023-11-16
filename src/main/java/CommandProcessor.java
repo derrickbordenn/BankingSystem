@@ -22,6 +22,11 @@ public class CommandProcessor {
 				double balance = Double.parseDouble(commandParts[4]);
 				bank.addAccount(new CDAccount(id, apr, balance));
 			}
+		} else if (commandType.equals("deposit")) {
+			int id = Integer.parseInt(commandParts[1]);
+			double amount = Double.parseDouble(commandParts[2]);
+			bank.depositById(id, amount);
+
 		}
 	}
 }
