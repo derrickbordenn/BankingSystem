@@ -25,4 +25,14 @@ public class MasterControlTest {
 		assertEquals(1, actual.size());
 		assertEquals("creat checking 12345678 1.0", actual.get(0));
 	}
+
+	@Test
+	void typo_in_deposit_command_is_invalid() {
+		List<String> input = new ArrayList<>();
+		input.add("depositt 12345678 100");
+
+		List<String> actual = masterControl.start(input);
+		assertEquals(1, actual.size());
+		assertEquals("depositt 12345678 100", actual.get(0));
+	}
 }
