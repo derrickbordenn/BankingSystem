@@ -1,4 +1,4 @@
-public class InvalidCommands {
+public class CommandStore {
 	String account_with_no_id = "create savings 2.4";
 	String cd_with_no_id = "create cd 2.4 1200";
 	String account_with_no_apr = "create savings 12345678";
