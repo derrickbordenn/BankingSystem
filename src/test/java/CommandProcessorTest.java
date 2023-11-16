@@ -36,4 +36,13 @@ public class CommandProcessorTest {
 
 		assertEquals(2.4, actual);
 	}
+
+	@Test
+	void deposit_to_savings_account() {
+		commandProcessor.Process("create savingS 12345678 1.8");
+		commandProcessor.Process("deposit 12345678 1000");
+		double actual = bank.getAccountById(12345678).getBalance();
+
+		assertEquals(1000, actual);
+	}
 }
