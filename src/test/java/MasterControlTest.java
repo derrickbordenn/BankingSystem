@@ -13,7 +13,7 @@ public class MasterControlTest {
 	@BeforeEach
 	void setUp() {
 		Bank bank = new Bank();
-		masterControl = new MasterControl(new CommandValidator(), new CommandProcessor(bank), new InvalidCommands());
+		masterControl = new MasterControl(new CommandValidator(), new CommandProcessor(bank), new CommandStore());
 	}
 
 	@Test
