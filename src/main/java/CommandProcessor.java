@@ -15,6 +15,8 @@ public class CommandProcessor {
 			if (commandParts.length < 5) {
 				if (accountType.equals("savings")) {
 					bank.addAccount(new SavingsAccount(id, apr));
+				} else {
+					bank.addAccount(new CheckingAccount(id, apr));
 				}
 			}
 		}
