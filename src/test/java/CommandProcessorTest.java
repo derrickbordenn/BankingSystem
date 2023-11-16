@@ -28,4 +28,12 @@ public class CommandProcessorTest {
 
 		assertEquals(1.8, actual);
 	}
+
+	@Test
+	void create_valid_CD_account() {
+		commandProcessor.Process("create Cd 12345678 2.4 1500");
+		double actual = bank.getAccountById(12345678).getApr();
+
+		assertEquals(2.4, actual);
+	}
 }
