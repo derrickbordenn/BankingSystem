@@ -4,20 +4,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CommandProcessorTest {
-	public static final int ID = 12345678;
 	CommandProcessor commandProcessor;
 	Bank bank;
 
 	@BeforeEach
 	void setUp() {
-		commandProcessor = new CommandProcessor();
 		bank = new Bank();
+		commandProcessor = new CommandProcessor((bank));
 	}
 
 	@Test
-	void create_valid_cd_account() {
-		Account actual = commandProcessor.Process("create checkinG 12345678 1.8");
+	void create_valid_savings_account() {
+		commandProcessor.Process("create savingS 12345678 1.8");
+		double actual = bank.getAccountById(12345678).getApr();
 
-		assertEquals(bank.getAccountById(ID), actual);
+		assertEquals(1.8, actual);
 	}
 }
