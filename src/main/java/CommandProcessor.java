@@ -18,6 +18,9 @@ public class CommandProcessor {
 				} else {
 					bank.addAccount(new CheckingAccount(id, apr));
 				}
+			} else {
+				double balance = Double.parseDouble(commandParts[4]);
+				bank.addAccount(new CDAccount(id, apr, balance));
 			}
 		}
 	}
