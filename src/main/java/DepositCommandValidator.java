@@ -1,4 +1,8 @@
 public class DepositCommandValidator extends CommandValidator {
+	public DepositCommandValidator(Bank bank) {
+		super(bank);
+	}
+
 	public boolean validateDepositCommand(String[] commandParts) {
 		if (commandParts.length != 3) {
 			return false;
