@@ -60,6 +60,6 @@ public class MasterControlTest {
 
 		List<String> actual = masterControl.start(input);
 
-		assertSingleCommand("create checking 12345768 1.0", actual);
+		assertSingleCommand("create checking 12345678 1.0", actual);
 	}
 }
