@@ -33,12 +33,6 @@ public class CommandValidatorTest {
 	}
 
 	@Test
-	void create_account_capital_letters() {
-		boolean actual = commandValidator.validate("create cHeCkIng 12345678 0.6");
-		assertTrue(actual);
-	}
-
-	@Test
 	void create_with_min_apr() {
 		boolean actual = commandValidator.validate("create savings 12345678 0");
 		assertTrue(actual);
@@ -107,8 +101,20 @@ public class CommandValidatorTest {
 	}
 
 	@Test
-	void create_cd_capital_letters() {
+	void case_insensitivity_create_CD() {
 		boolean actual = commandValidator.validate("create cD 12345678 0.6 2500");
+		assertTrue(actual);
+	}
+
+	@Test
+	void case_insensitivity_create_savings() {
+		boolean actual = commandValidator.validate("create savInGS 12345678 0.6");
+		assertTrue(actual);
+	}
+
+	@Test
+	void case_insensitivity_create_checking() {
+		boolean actual = commandValidator.validate("create cHeCkIng 12345678 0.6");
 		assertTrue(actual);
 	}
 
@@ -251,8 +257,65 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void deposit_into_CD() {
+		bank.addAccount(new CDAccount(12345678, 2.4, 2500));
+		boolean actual = commandValidator.validate("deposit 12345678 0");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_zero_to_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 0");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_max_to_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 2500");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_zero_to_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 0");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void deposit_max_to_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 1000");
+
+		assertTrue(actual);
+	}
+
+	@Test
 	void deposit_negative_into_account() {
 		boolean actual = commandValidator.validate("deposit 12345678 -1000");
 		assertFalse(actual);
 	}
+
+	@Test
+	void deposit_too_much_to_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 2501");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void deposit_too_much_to_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 1001");
+
+		assertFalse(actual);
+	}
+
 }
