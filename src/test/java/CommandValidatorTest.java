@@ -6,10 +6,12 @@ import org.junit.jupiter.api.Test;
 
 public class CommandValidatorTest {
 	CommandValidator commandValidator;
+	Bank bank;
 
 	@BeforeEach
 	public void setUP() {
-		commandValidator = new CommandValidator();
+		Bank bank = new Bank();
+		commandValidator = new CommandValidator(bank);
 	}
 
 	@Test
