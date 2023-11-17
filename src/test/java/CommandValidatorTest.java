@@ -10,9 +10,7 @@ public class CommandValidatorTest {
 
 	@BeforeEach
 	public void setUP() {
-		Bank bank = new Bank();
-		Account account = new SavingsAccount(12345678, 1.2);
-		bank.addAccount(account);
+		bank = new Bank();
 		commandValidator = new CommandValidator(bank);
 	}
 
@@ -54,6 +52,8 @@ public class CommandValidatorTest {
 
 	@Test
 	void create_duplicate_account() {
+		Account account = new SavingsAccount(12345678, 1.2);
+		bank.addAccount(account);
 		boolean actual = commandValidator.validate("create savings 12345678 1.2");
 		assertFalse(actual);
 	}
