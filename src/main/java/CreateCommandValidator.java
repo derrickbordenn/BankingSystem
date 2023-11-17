@@ -15,11 +15,9 @@ public class CreateCommandValidator extends CommandValidator {
 
 		if (validAccountType(accountType) && validId(Id) && validApr(Apr)) {
 			int id = Integer.parseInt(Id);
-
 			if (bank.accountExistsByQuickID(id)) {
 				return false;
-			}
-			if (accountType.equals("cd")) {
+			} else if (accountType.equals("cd")) {
 				if (commandParts.length != 5) {
 					return false;
 				}
