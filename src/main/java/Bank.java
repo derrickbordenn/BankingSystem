@@ -16,6 +16,14 @@ public class Bank {
 		return accounts.get(id);
 	}
 
+	public String getAccountType(int id) {
+		if (getAccountById(id) != null) {
+			return getAccountById(id).getAccountType();
+		} else {
+			return null;
+		}
+	}
+
 	public int getAccountCount() {
 		return accounts.size();
 	}
