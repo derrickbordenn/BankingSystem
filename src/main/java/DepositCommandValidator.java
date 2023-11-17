@@ -7,10 +7,17 @@ public class DepositCommandValidator extends CommandValidator {
 		if (commandParts.length != 3) {
 			return false;
 		}
-
 		String Id = commandParts[1];
 		String amount = commandParts[2];
-
-		return (validId(Id) && validDeposit(amount));
+		int id = Integer.parseInt(Id);
+		double depositAmount = Double.parseDouble(amount);
+		String accountType = bank.getAccountType(id);
+		if (accountType.equals("savings")) {
+			return (depositAmount <= 2500 && depositAmount >= 0 && (validId(Id) && validDeposit(amount)));
+		} else if (accountType.equals("checking")) {
+			return (depositAmount <= 1000 && depositAmount >= 0) && (validId(Id) && validDeposit(amount));
+		} else {
+			return false;
+		}
 	}
 }
