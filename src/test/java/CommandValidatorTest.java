@@ -239,20 +239,23 @@ public class CommandValidatorTest {
 	}
 
 	@Test
-	void deposit_integer_into_account() {
+	void deposit_integer_into_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
 		boolean actual = commandValidator.validate("deposit 12345678 1000");
 		assertTrue(actual);
 	}
 
 	@Test
-	void deposit_float_into_account() {
-		boolean actual = commandValidator.validate("deposit 12345678 100.1");
+	void deposit_integer_into_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 1000");
 		assertTrue(actual);
 	}
 
 	@Test
-	void deposit_zero_into_account() {
-		boolean actual = commandValidator.validate("deposit 12345678 0");
+	void deposit_double_into_account() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 100.1");
 		assertTrue(actual);
 	}
 
@@ -298,6 +301,7 @@ public class CommandValidatorTest {
 
 	@Test
 	void deposit_negative_into_account() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
 		boolean actual = commandValidator.validate("deposit 12345678 -1000");
 		assertFalse(actual);
 	}
