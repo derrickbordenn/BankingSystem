@@ -1,4 +1,9 @@
 public class CommandValidator {
+	Bank bank;
+
+	public CommandValidator(Bank bank) {
+		this.bank = bank;
+	}
 
 	public boolean validate(String command) {
 		String[] commandParts = command.split(" ");
@@ -10,10 +15,10 @@ public class CommandValidator {
 		String commandType = commandParts[0].toLowerCase();
 
 		if (commandType.equals("create")) {
-			CreateCommandValidator createCommandValidator = new CreateCommandValidator();
+			CreateCommandValidator createCommandValidator = new CreateCommandValidator(bank);
 			return createCommandValidator.validateCreateCommand(commandParts);
 		} else if (commandType.equals("deposit")) {
-			DepositCommandValidator depositCommandValidator = new DepositCommandValidator();
+			DepositCommandValidator depositCommandValidator = new DepositCommandValidator(bank);
 			return depositCommandValidator.validateDepositCommand(commandParts);
 		} else {
 			return false;
