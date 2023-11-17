@@ -11,6 +11,8 @@ public class CommandValidatorTest {
 	@BeforeEach
 	public void setUP() {
 		Bank bank = new Bank();
+		Account account = new SavingsAccount(12345678, 1.2);
+		bank.addAccount(account);
 		commandValidator = new CommandValidator(bank);
 	}
 
@@ -48,6 +50,12 @@ public class CommandValidatorTest {
 	void create_with_max_apr() {
 		boolean actual = commandValidator.validate("create savings 12345678 10");
 		assertTrue(actual);
+	}
+
+	@Test
+	void create_duplicate_account() {
+		boolean actual = commandValidator.validate("create savings 12345678 1.2");
+		assertFalse(actual);
 	}
 
 	@Test
