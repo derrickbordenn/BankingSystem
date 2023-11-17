@@ -30,12 +30,8 @@ public class Bank {
 		account.withdraw_money(amount);
 	}
 
-	public boolean accountExistsByQuickID(int quickID) {
-		Account account = getAccountById(quickID);
-		if (account != null) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean accountExistsByQuickID(int id) {
+		Account account = getAccountById(id);
+		return account != null;
 	}
 }
