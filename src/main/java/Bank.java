@@ -31,10 +31,6 @@ public class Bank {
 	}
 
 	public boolean accountExistsByQuickID(int id) {
-		if (getAccountById(id) != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return getAccountById(id) != null;
 	}
 }
