@@ -32,63 +32,50 @@ public class CommandValidator {
 	}
 
 	public boolean validId(String Id) {
-		for (char c : Id.toCharArray()) {
-			if (!Character.isDigit(c)) {
+		if (Id.length() != 8) {
+			return false;
+		}
+		try {
+			int id = Integer.parseInt(Id);
+			if (id < 0 || id > 99999999) {
 				return false;
 			}
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
 		}
-		return (Id.length() == 8);
 	}
 
 	public boolean validApr(String apr) {
-		int periodCount = 0;
-		for (char c : apr.toCharArray()) {
-			if (!Character.isDigit(c) && c != '.') {
+		try {
+			double Apr = Double.parseDouble(apr);
+			if (Apr < 0 || Apr > 10) {
 				return false;
 			}
-			if (c == '.') {
-				periodCount++;
-			}
-		}
-		if (periodCount > 1) {
+			return true;
+		} catch (NumberFormatException e) {
 			return false;
-		} else {
-			float aprToFloat = Float.parseFloat(apr);
-			return aprToFloat >= 0 && aprToFloat <= 10;
 		}
 	}
 
 	public boolean validInitalBalance(String balance) {
-		int periodCount = 0;
-		for (char c : balance.toCharArray()) {
-			if (!Character.isDigit(c) && c != '.') {
+		try {
+			double Balance = Double.parseDouble(balance);
+			if (Balance < 1000 || Balance > 10000) {
 				return false;
 			}
-			if (c == '.') {
-				periodCount++;
-			}
-		}
-		if (periodCount > 1) {
+			return true;
+		} catch (NumberFormatException e) {
 			return false;
 		}
-		float balanceToFloat = Float.parseFloat(balance);
-		return (balanceToFloat >= 1000 && balanceToFloat <= 10000);
 	}
 
 	public boolean validDeposit(String amount) {
-		int periodCount = 0;
-		for (char c : amount.toCharArray()) {
-			if (!Character.isDigit(c) && c != '.') {
-				return false;
-			}
-			if (c == '.') {
-				periodCount++;
-			}
-		}
-		if (periodCount > 1) {
+		try {
+			double Amount = Double.parseDouble(amount);
+			return Amount >= 0;
+		} catch (NumberFormatException e) {
 			return false;
 		}
-		float amountToFloat = Float.parseFloat(amount);
-		return (amountToFloat >= 0);
 	}
 }
