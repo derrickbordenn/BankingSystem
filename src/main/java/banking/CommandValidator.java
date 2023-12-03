@@ -22,6 +22,9 @@ public class CommandValidator {
 		} else if (commandType.equals("deposit")) {
 			DepositCommandValidator depositCommandValidator = new DepositCommandValidator(bank);
 			return depositCommandValidator.validateDepositCommand(commandParts);
+		} else if (commandType.equals("withdraw")) {
+			WithdrawCommandValidator withdrawCommandValidator = new WithdrawCommandValidator(bank);
+			return withdrawCommandValidator.validateWithdrawCommand(commandParts);
 		} else {
 			return false;
 		}
