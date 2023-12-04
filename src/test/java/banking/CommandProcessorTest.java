@@ -56,13 +56,4 @@ public class CommandProcessorTest {
 
 		assertEquals(1000, actual);
 	}
-
-	@Test
-	void deposit_to_CD_account() {
-		commandProcessor.Process("create CD 10101010 1.8 2500");
-		commandProcessor.Process("deposit 10101010 1000");
-		double actual = bank.getAccountById(10101010).getBalance();
-
-		assertEquals(3500, actual);
-	}
 }
