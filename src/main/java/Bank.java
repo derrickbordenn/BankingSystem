@@ -16,6 +16,14 @@ public class Bank {
 		return accounts.get(id);
 	}
 
+	public String getAccountType(int id) {
+		if (getAccountById(id) != null) {
+			return getAccountById(id).getAccountType();
+		} else {
+			return null;
+		}
+	}
+
 	public int getAccountCount() {
 		return accounts.size();
 	}
@@ -30,12 +38,7 @@ public class Bank {
 		account.withdraw_money(amount);
 	}
 
-	public boolean accountExistsByQuickID(int quickID) {
-		Account account = getAccountById(quickID);
-		if (account != null) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean accountExistsByQuickID(int id) {
+		return getAccountById(id) != null;
 	}
 }
