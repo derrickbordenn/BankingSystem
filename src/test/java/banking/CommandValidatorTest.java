@@ -1,3 +1,5 @@
+package banking;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -322,4 +324,19 @@ public class CommandValidatorTest {
 		assertFalse(actual);
 	}
 
+	@Test
+	void withdraw_zero_from_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 0");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_valid_amount_from_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 500");
+
+		assertTrue(actual);
+	}
 }
