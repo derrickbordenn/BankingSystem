@@ -40,10 +40,8 @@ public class CommandValidator {
 		}
 		try {
 			int id = Integer.parseInt(Id);
-			if (id < 0 || id > 99999999) {
-				return false;
-			}
-			return true;
+			return id >= 0 && id <= 99999999;
+
 		} catch (NumberFormatException e) {
 			return false;
 		}
@@ -52,10 +50,7 @@ public class CommandValidator {
 	public boolean validApr(String apr) {
 		try {
 			double Apr = Double.parseDouble(apr);
-			if (Apr < 0 || Apr > 10) {
-				return false;
-			}
-			return true;
+			return Apr >= 0 && Apr <= 10;
 		} catch (NumberFormatException e) {
 			return false;
 		}
@@ -64,10 +59,7 @@ public class CommandValidator {
 	public boolean validInitalBalance(String balance) {
 		try {
 			double Balance = Double.parseDouble(balance);
-			if (Balance < 1000 || Balance > 10000) {
-				return false;
-			}
-			return true;
+			return Balance >= 1000 && Balance <= 10000;
 		} catch (NumberFormatException e) {
 			return false;
 		}
