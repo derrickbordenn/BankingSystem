@@ -131,12 +131,22 @@ public class BankTest {
 	}
 
 	@Test
-	void pass_time_accrues_interest() {
+	void pass_time_accrus_interest() {
 		bank.addAccount(savings);
 		bank.depositById(ID, DEPOSIT_AMOUNT);
-		bank.passTime(2);
+		bank.passTime(4);
 
 		double actual = bank.getAccountById(ID).getBalance();
-		assertEquals(100.4004, actual);
+
+		assertEquals(100.8024032016, actual);
+	}
+
+	@Test
+	void pass_time_accrues_interest_for_CD() {
+		bank.addAccount(new CDAccount(12345687, 2.1, 2000));
+		bank.passTime(12);
+
+		double actual = bank.getAccountById(12345687).getBalance();
+		assertEquals(2175.098098315957, actual);
 	}
 }

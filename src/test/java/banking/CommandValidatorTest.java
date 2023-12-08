@@ -429,8 +429,9 @@ public class CommandValidatorTest {
 
 	@Test
 	void withdraw_full_amount_from_CD() {
-		bank.addAccount(new CDAccount(12345678, 2.4, 1000));
-		boolean actual = commandValidator.validate("withdraw 12345678 1000");
+		bank.addAccount(new CDAccount(12345678, 2.1, 2000));
+		bank.passTime(12);
+		boolean actual = commandValidator.validate("withdraw 12345678 2175.098098315957");
 
 		assertTrue(actual);
 	}
@@ -453,7 +454,8 @@ public class CommandValidatorTest {
 
 	@Test
 	void case_insensitivity_in_withdraw_CD() {
-		bank.addAccount(new CDAccount(12345678, 2.4, 7500));
+		bank.addAccount(new CDAccount(12345678, 0, 7500));
+		bank.passTime(12);
 		boolean actual = commandValidator.validate("withdrAw 12345678 7500");
 
 		assertTrue(actual);
@@ -569,6 +571,24 @@ public class CommandValidatorTest {
 	@Test
 	void cannot_pass_more_than_sixty_months() {
 		boolean actual = commandValidator.validate("pass 61");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_withdraw_twice_in_one_month() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 2500);
+		bank.withdrawById(12345678, 100);
+		boolean actual = commandValidator.validate("withdraw 12345678 100");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cd_cannot_withdraw_before_passing_12_months() {
+		bank.addAccount(new CDAccount(12345678, 2.4, 2000));
+		boolean actual = commandValidator.validate("withdraw 12345678 100");
 
 		assertFalse(actual);
 	}

@@ -5,7 +5,8 @@ import java.util.Map;
 
 public class Bank {
 	private Map<Integer, Account> accounts;
-	private Integer time;
+	private int time;
+	private int withdrawals;
 
 	Bank() {
 		accounts = new HashMap<>();
@@ -35,6 +36,7 @@ public class Bank {
 	public void depositById(int id, double amount) {
 		Account account = getAccountById(id);
 		account.deposit_money(amount);
+		countWithdraw();
 	}
 
 	public void withdrawById(int id, double amount) {
@@ -47,14 +49,14 @@ public class Bank {
 	}
 
 	public void passTime(int months) {
+		resetWithdrawals();
 		for (int i = 0; i < months; i++) {
+			time += 1;
 			for (Map.Entry<Integer, Account> entry : accounts.entrySet()) {
 				Account account = entry.getValue();
 				String accountType = account.getAccountType();
 				double apr = account.getApr();
 				double balance = account.getBalance();
-
-				double monthlyInterest = (apr / 100 / 12) * balance;
 				double minimumBalanceFee = 25;
 
 				if (balance == 0) {
@@ -62,19 +64,33 @@ public class Bank {
 				} else if (balance < 100) {
 					account.withdraw_money(minimumBalanceFee);
 				} else if ((accountType.equals("savings")) || accountType.equals("checking")) {
-					account.deposit_money(monthlyInterest);
+					account.deposit_money(calculatedMonthlyInterest(account.getApr(), account.getBalance()));
 				} else {
 					for (int j = 0; j < 4; j++) {
-						double depositAmount = account.getBalance() * monthlyInterest;
-						depositById(account.getId(), depositAmount);
+						account.deposit_money(calculatedMonthlyInterest(account.getApr(), account.getBalance()));
 					}
 				}
 			}
-			time += 1;
 		}
 	}
 
 	public int getMonths() {
 		return time;
+	}
+
+	public double calculatedMonthlyInterest(double apr, double balance) {
+		return (apr / 100 / 12) * balance;
+	}
+
+	public void countWithdraw() {
+		withdrawals += 1;
+	}
+
+	public void resetWithdrawals() {
+		withdrawals = 0;
+	}
+
+	public int withdrawalsThisMonth() {
+		return withdrawals;
 	}
 }
