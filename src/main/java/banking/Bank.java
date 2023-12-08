@@ -5,9 +5,11 @@ import java.util.Map;
 
 public class Bank {
 	private Map<Integer, Account> accounts;
+	private Integer months;
 
 	Bank() {
 		accounts = new HashMap<>();
+		months = 0;
 	}
 
 	public void addAccount(Account account) {
@@ -43,4 +45,13 @@ public class Bank {
 	public boolean accountExistsByQuickID(int id) {
 		return getAccountById(id) != null;
 	}
+
+	public void passTime(int time) {
+		months += time;
+	}
+
+	public int getMonths() {
+		return months;
+	}
+
 }

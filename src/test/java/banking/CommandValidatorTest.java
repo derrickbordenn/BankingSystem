@@ -537,4 +537,39 @@ public class CommandValidatorTest {
 
 		assertFalse(actual);
 	}
+
+	@Test
+	void pass_minimum_time() {
+		boolean actual = commandValidator.validate("pass 1");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void pass_valid_time() {
+		boolean actual = commandValidator.validate("pass 10");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void pass_maximum_time() {
+		boolean actual = commandValidator.validate("pass 60");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void cannot_pass_negative_time() {
+		boolean actual = commandValidator.validate("pass -2");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_pass_more_than_sixty_months() {
+		boolean actual = commandValidator.validate("pass 61");
+
+		assertFalse(actual);
+	}
 }

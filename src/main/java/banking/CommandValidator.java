@@ -25,6 +25,9 @@ public class CommandValidator {
 		} else if (commandType.equals("withdraw")) {
 			WithdrawCommandValidator withdrawCommandValidator = new WithdrawCommandValidator(bank);
 			return withdrawCommandValidator.validateWithdrawCommand(commandParts);
+		} else if (commandType.equals("pass")) {
+			PassTimeCommandValidator passTimeCommandValidator = new PassTimeCommandValidator(bank);
+			return passTimeCommandValidator.validatePassTimeCommand(commandParts);
 		} else {
 			return false;
 		}
@@ -73,4 +76,14 @@ public class CommandValidator {
 			return false;
 		}
 	}
+
+	public boolean validMonth(String month) {
+		try {
+			double Month = Double.parseDouble(month);
+			return Month >= 1 && Month <= 60;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
 }
