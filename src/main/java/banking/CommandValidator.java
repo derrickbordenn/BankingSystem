@@ -72,13 +72,4 @@ public class CommandValidator {
 			return false;
 		}
 	}
-
-	public boolean validDeposit(String amount) {
-		try {
-			double Amount = Double.parseDouble(amount);
-			return Amount >= 0;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
 }
