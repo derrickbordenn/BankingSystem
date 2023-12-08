@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class Bank {
 	private Map<Integer, Account> accounts;
-	private Integer months;
+	private Integer time;
 
 	Bank() {
 		accounts = new HashMap<>();
-		months = 0;
+		time = 0;
 	}
 
 	public void addAccount(Account account) {
@@ -46,12 +46,35 @@ public class Bank {
 		return getAccountById(id) != null;
 	}
 
-	public void passTime(int time) {
-		months += time;
+	public void passTime(int months) {
+		for (int i = 0; i < months; i++) {
+			for (Map.Entry<Integer, Account> entry : accounts.entrySet()) {
+				Account account = entry.getValue();
+				String accountType = account.getAccountType();
+				double apr = account.getApr();
+				double balance = account.getBalance();
+
+				double monthlyInterest = (apr / 100 / 12) * balance;
+				double minimumBalanceFee = 25;
+
+				if (balance == 0) {
+					accounts.remove(account.getId());
+				} else if (balance < 100) {
+					account.withdraw_money(minimumBalanceFee);
+				} else if ((accountType.equals("savings")) || accountType.equals("checking")) {
+					account.deposit_money(monthlyInterest);
+				} else {
+					for (int j = 0; j < 4; j++) {
+						double depositAmount = account.getBalance() * monthlyInterest;
+						depositById(account.getId(), depositAmount);
+					}
+				}
+			}
+			time += 1;
+		}
 	}
 
 	public int getMonths() {
-		return months;
+		return time;
 	}
-
 }

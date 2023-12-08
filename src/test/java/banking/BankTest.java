@@ -100,4 +100,43 @@ public class BankTest {
 		assertEquals(DEPOSIT_AMOUNT * 2 - WITHDRAWAL_AMOUNT * 2, actual);
 
 	}
+
+	@Test
+	void pass_time_adds_time() {
+		bank.passTime(10);
+		int actual = bank.getMonths();
+		assertEquals(10, actual);
+	}
+
+	@Test
+	void pass_time_removes_accounts_with_zero_balance() {
+		bank.addAccount(checking);
+		bank.withdrawById(ID + 1, DEPOSIT_AMOUNT);
+		bank.passTime(1);
+
+		Account actual = bank.getAccountById(ID + 1);
+
+		assertEquals(null, actual);
+	}
+
+	@Test
+	void if_balance_under_100_deduct_25() {
+		bank.addAccount(checking);
+		bank.depositById(ID + 1, DEPOSIT_AMOUNT - 1);
+		bank.passTime(1);
+
+		double actual = bank.getAccountById(ID + 1).getBalance();
+
+		assertEquals(74, actual);
+	}
+
+	@Test
+	void pass_time_accrues_interest() {
+		bank.addAccount(savings);
+		bank.depositById(ID, DEPOSIT_AMOUNT);
+		bank.passTime(2);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(100.4004, actual);
+	}
 }
