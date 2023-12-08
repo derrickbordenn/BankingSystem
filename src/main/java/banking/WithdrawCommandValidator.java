@@ -7,13 +7,27 @@ public class WithdrawCommandValidator extends CommandValidator {
 	}
 
 	public boolean validateWithdrawCommand(String[] commandParts) {
-		int id = Integer.parseInt(commandParts[1]);
-		double amount = Double.parseDouble(commandParts[2]);
-		String accountType = bank.getAccountType(id);
-		if (accountType.equals("savings")) {
-			return (amount >= 0 && amount <= 1000);
-		} else {
+		if (commandParts.length != 3) {
 			return false;
 		}
+
+		String Id = commandParts[1];
+		String Amount = commandParts[2];
+		if (validId(Id) && validAmount(Amount)) {
+
+			int id = Integer.parseInt(Id);
+			String accountType = bank.getAccountType(id);
+			double amount = Double.parseDouble(Amount);
+			if (bank.accountExistsByQuickID(id)) {
+				if (accountType.equals("savings")) {
+					return (amount <= 1000);
+				} else if (accountType.equals("checking")) {
+					return (amount <= 400);
+				} else if (accountType.equals("cd")) {
+					return (amount >= bank.getAccountById(id).getBalance());
+				}
+			}
+		}
+		return false;
 	}
 }

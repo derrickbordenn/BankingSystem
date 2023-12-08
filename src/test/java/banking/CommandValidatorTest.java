@@ -262,6 +262,22 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void case_insensitivity_in_deposit_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("dEpoSit 12345678 100");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void case_insensitivity_in_deposit_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("dEpoSit 12345678 100");
+
+		assertTrue(actual);
+	}
+
+	@Test
 	void deposit_into_CD() {
 		bank.addAccount(new CDAccount(12345678, 2.4, 2500));
 		boolean actual = commandValidator.validate("deposit 12345678 0");
@@ -325,6 +341,45 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void non_numeric_amount_in_deposit_command() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678 12348a");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void non_numeric_id_in_deposit_command() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12r45678 100");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_deposit_into_nonexistent_account() {
+		boolean actual = commandValidator.validate("deposit 12345678 100");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_deposit_without_specified_amount() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 12345678");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_deposit_without_specified_id() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("deposit 100");
+
+		assertFalse(actual);
+	}
+
+	@Test
 	void withdraw_zero_from_savings() {
 		bank.addAccount(new SavingsAccount(12345678, 2.4));
 		boolean actual = commandValidator.validate("withdraw 12345678 0");
@@ -338,5 +393,148 @@ public class CommandValidatorTest {
 		boolean actual = commandValidator.validate("withdraw 12345678 500");
 
 		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_maximum_amount_from_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 1000");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_zero_from_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 0");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_valid_amount_from_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 200");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_maximum_amount_from_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 400");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_full_amount_from_CD() {
+		bank.addAccount(new CDAccount(12345678, 2.4, 1000));
+		boolean actual = commandValidator.validate("withdraw 12345678 1000");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void case_insensitivity_in_withdraw_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdrAw 12345678 100");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void case_insensitivity_in_withdraw_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdrAw 12345678 100");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void case_insensitivity_in_withdraw_CD() {
+		bank.addAccount(new CDAccount(12345678, 2.4, 7500));
+		boolean actual = commandValidator.validate("withdrAw 12345678 7500");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_negative_from_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 -200");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void withdraw_negative_from_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 -100");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void withdraw_negative_from_CD() {
+		bank.addAccount(new CDAccount(12345678, 2.4, 1500));
+		boolean actual = commandValidator.validate("withdraw 12345678 -100");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void withdraw_amount_less_than_balance_from_CD() {
+		bank.addAccount(new CDAccount(12345678, 2.4, 1500));
+		boolean actual = commandValidator.validate("withdraw 12345678 1000");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void non_numeric_value_in_withdraw_amount() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 102m");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void non_numeric_amount_in_withdraw_command() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678 12348a");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void non_numeric_id_in_withdraw_command() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12r45678 100");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_withdraw_from_non_existent_id() {
+		boolean actual = commandValidator.validate("withdraw 12345678 1000");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_withdraw_without_specified_amount() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 12345678");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_withdraw_without_specified_id() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		boolean actual = commandValidator.validate("withdraw 10000");
+
+		assertFalse(actual);
 	}
 }

@@ -24,7 +24,7 @@ public class CreateCommandValidator extends CommandValidator {
 					return false;
 				}
 				String CDInitialBalance = commandParts[4];
-				return validInitalBalance(CDInitialBalance);
+				return validInitialBalance(CDInitialBalance);
 			} else if (commandParts.length == 4) {
 				return true;
 			}

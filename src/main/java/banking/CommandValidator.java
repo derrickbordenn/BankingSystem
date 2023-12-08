@@ -56,7 +56,7 @@ public class CommandValidator {
 		}
 	}
 
-	public boolean validInitalBalance(String balance) {
+	public boolean validInitialBalance(String balance) {
 		try {
 			double Balance = Double.parseDouble(balance);
 			return Balance >= 1000 && Balance <= 10000;
