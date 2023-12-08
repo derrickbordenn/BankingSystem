@@ -65,7 +65,7 @@ public class CommandValidator {
 		}
 	}
 
-	public boolean ValidAmount(String amount) {
+	public boolean validAmount(String amount) {
 		try {
 			double Amount = Double.parseDouble(amount);
 			return Amount >= 0;
