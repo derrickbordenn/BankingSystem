@@ -64,4 +64,13 @@ public class CommandValidator {
 			return false;
 		}
 	}
+
+	public boolean ValidAmount(String amount) {
+		try {
+			double Amount = Double.parseDouble(amount);
+			return Amount >= 0;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 }
