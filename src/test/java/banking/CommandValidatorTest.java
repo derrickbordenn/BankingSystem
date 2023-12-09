@@ -562,6 +562,13 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void cannot_pass_0_months() {
+		boolean actual = commandValidator.validate("pass 0");
+
+		assertFalse(actual);
+	}
+
+	@Test
 	void cannot_pass_negative_time() {
 		boolean actual = commandValidator.validate("pass -2");
 
