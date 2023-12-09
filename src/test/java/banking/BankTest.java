@@ -149,4 +149,24 @@ public class BankTest {
 		double actual = bank.getAccountById(12345687).getBalance();
 		assertEquals(2175.098098315957, actual);
 	}
+
+	@Test
+	void withdrawing_more_than_balance_brings_balance_to_zero() {
+		bank.addAccount(new SavingsAccount(ID, APR));
+		bank.depositById(ID, DEPOSIT_AMOUNT);
+		bank.withdrawById(12345678, 101);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(0, actual);
+	}
+
+	@Test
+	void withdrawing_more_than_balance_brings_from_CD_balance_to_zero() {
+		bank.addAccount(new CDAccount(ID, APR, 1000));
+		bank.passTime(12);
+		bank.withdrawById(ID, 5000);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(0, actual);
+	}
 }
