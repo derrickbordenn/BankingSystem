@@ -82,7 +82,7 @@ public class CommandValidator {
 
 	public boolean validMonth(String month) {
 		try {
-			double Month = Double.parseDouble(month);
+			int Month = Integer.parseInt(month);
 			return Month >= 1 && Month <= 60;
 		} catch (NumberFormatException e) {
 			return false;
