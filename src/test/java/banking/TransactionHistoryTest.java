@@ -62,7 +62,7 @@ public class TransactionHistoryTest {
 
 	@Test
 	void id_left_in_original_string_for() {
-		Account account = new CheckingAccount("", 0);
+		Account account = new CheckingAccount("12345678", 0);
 		String status = transactionHistory.getAccountStatus(account);
 		String[] parts = status.split(" ");
 		String actual = parts[1];
