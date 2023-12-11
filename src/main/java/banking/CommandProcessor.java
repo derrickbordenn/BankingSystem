@@ -16,6 +16,10 @@ public class CommandProcessor {
 		} else if (commandType.equals("deposit")) {
 			DepositCommandProcessor depositCommandProcessor = new DepositCommandProcessor(bank);
 			depositCommandProcessor.processDepositCommand(commandParts);
+		} else if (commandType.equals("withdraw")) {
+			WithdrawCommandProcessor withdrawCommandProcessor = new WithdrawCommandProcessor(bank);
+			withdrawCommandProcessor.processWithdrawCommand(commandParts);
+
 		}
 	}
 }
