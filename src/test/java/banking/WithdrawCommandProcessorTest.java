@@ -16,6 +16,7 @@ public class WithdrawCommandProcessorTest {
 	void setUp() {
 		bank = new Bank();
 		commandProcessor = new CommandProcessor(bank);
+
 		savings = new SavingsAccount(12345678, 2.4);
 		checking = new CheckingAccount(12345678, 2.4);
 		cd = new CDAccount(12345678, 2.1, 2000);
