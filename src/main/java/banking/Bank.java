@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Bank {
-	private Map<Integer, Account> accounts;
+	private Map<String, Account> accounts;
 	private List<String> accountsInOrder;
 	private int time;
 	private int withdrawals;
@@ -18,18 +18,29 @@ public class Bank {
 		accountsInOrder = new ArrayList<>();
 	}
 
-	public void addAccount(Account account) {
-		accounts.put(account.getId(), account);
-		String id = Integer.toString(account.getId());
+	public void addSavingsAccount(String id, double apr) {
+		Account account = new SavingsAccount(id, apr);
+		accounts.put(id, account);
 		accountsInOrder.add(id);
-
 	}
 
-	public Account getAccountById(int id) {
+	public void addCheckingAccount(String id, double apr) {
+		Account account = new CheckingAccount(id, apr);
+		accounts.put(id, account);
+		accountsInOrder.add(id);
+	}
+
+	public void addCDAccount(String id, double apr, double balance) {
+		Account account = new CDAccount(id, apr, balance);
+		accounts.put(id, account);
+		accountsInOrder.add(id);
+	}
+
+	public Account getAccountById(String id) {
 		return accounts.get(id);
 	}
 
-	public String getAccountType(int id) {
+	public String getAccountType(String id) {
 		if (getAccountById(id) != null) {
 			return getAccountById(id).getAccountType();
 		} else {
@@ -41,34 +52,36 @@ public class Bank {
 		return accounts.size();
 	}
 
-	public void depositById(int id, double amount) {
+	public void depositById(String id, double amount) {
 		Account account = getAccountById(id);
 		account.deposit_money(amount);
 	}
 
-	public void withdrawById(int id, double amount) {
+	public void withdrawById(String id, double amount) {
 		Account account = getAccountById(id);
 		account.withdraw_money(amount);
 		countWithdraw();
 	}
 
-	public boolean accountExistsByQuickID(int id) {
+	public boolean accountExistsByQuickID(String id) {
 		return getAccountById(id) != null;
 	}
 
 	public void passTime(int months) {
 		resetWithdrawals();
+		List<String> accountsToRemove = new ArrayList<>();
 		for (int i = 0; i < months; i++) {
 			time += 1;
-			for (Map.Entry<Integer, Account> entry : accounts.entrySet()) {
+			for (Map.Entry<String, Account> entry : accounts.entrySet()) {
 				Account account = entry.getValue();
 				String accountType = account.getAccountType();
+				String id = account.getId();
 				double apr = account.getApr();
 				double balance = account.getBalance();
 				double minimumBalanceFee = 25;
 
 				if (balance == 0) {
-					accounts.remove(account.getId());
+					accountsToRemove.add(id);
 				} else if (balance < 100) {
 					account.withdraw_money(minimumBalanceFee);
 				} else if ((accountType.equals("savings")) || accountType.equals("checking")) {
@@ -79,6 +92,10 @@ public class Bank {
 					}
 				}
 			}
+		}
+		for (String ID : accountsToRemove) {
+			accounts.remove(ID);
+			accountsInOrder.remove(ID);
 		}
 	}
 
@@ -102,7 +119,7 @@ public class Bank {
 		return withdrawals;
 	}
 
-	public void transfer(int fromId, int toId, double amount) {
+	public void transfer(String fromId, String toId, double amount) {
 		Account fromAccount = getAccountById(fromId);
 		Account toAccount = getAccountById(toId);
 		if (fromAccount.getBalance() < amount) {

@@ -46,7 +46,7 @@ public class CommandStoreTest {
 		commandStore.addValidCommand(validCommand);
 		List<String> actual = commandStore.getAllValidCommands();
 
-		assertEquals("valid command", actual.get(0));
+		assertEquals("Valid command", actual.get(0));
 	}
 
 	@Test
@@ -59,8 +59,8 @@ public class CommandStoreTest {
 		commandStore.addValidCommand(thirdCommand);
 		List<String> actual = commandStore.getAllValidCommands();
 
-		assertEquals("first command", actual.get(0));
-		assertEquals("second command", actual.get(1));
-		assertEquals("third command", actual.get(2));
+		assertEquals("First command", actual.get(0));
+		assertEquals("Second command", actual.get(1));
+		assertEquals("Third command", actual.get(2));
 	}
 }

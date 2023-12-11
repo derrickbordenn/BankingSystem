@@ -6,8 +6,7 @@ public class DepositCommandProcessor extends CommandProcessor {
 	}
 
 	public void processDepositCommand(String[] commandParts) {
-		int id = Integer.parseInt(commandParts[1]);
 		double amount = Double.parseDouble(commandParts[2]);
-		bank.depositById(id, amount);
+		bank.depositById(commandParts[1], amount);
 	}
 }

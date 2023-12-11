@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class AccountTest {
 	public static final double APR = 2.4;
-	public static final int ID = 12345678;
+	public static final String ID = "12345678";
 	public static final double DEPOSIT_AMOUNT = 200;
 	public static final double WITHDRAWAL_AMOUNT = 50;
 	Account savings;

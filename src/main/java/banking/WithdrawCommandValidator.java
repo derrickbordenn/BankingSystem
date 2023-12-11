@@ -11,11 +11,10 @@ public class WithdrawCommandValidator extends CommandValidator {
 			return false;
 		}
 
-		String Id = commandParts[1];
+		String id = commandParts[1];
 		String Amount = commandParts[2];
 
-		if (validId(Id) && validAmount(Amount)) {
-			int id = Integer.parseInt(Id);
+		if (validId(id) && validAmount(Amount)) {
 			String accountType = bank.getAccountType(id);
 			double amount = Double.parseDouble(Amount);
 			if (bank.accountExistsByQuickID(id)) {

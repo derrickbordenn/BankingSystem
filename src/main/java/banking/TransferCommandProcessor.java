@@ -6,9 +6,7 @@ public class TransferCommandProcessor extends CommandProcessor {
 	}
 
 	public void processTransferCommand(String[] commandParts) {
-		int fromId = Integer.parseInt(commandParts[1]);
-		int toId = Integer.parseInt(commandParts[2]);
 		double amount = Double.parseDouble(commandParts[3]);
-		bank.transfer(fromId, toId, amount);
+		bank.transfer(commandParts[1], commandParts[2], amount);
 	}
 }

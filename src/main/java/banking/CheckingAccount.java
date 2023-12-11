@@ -1,7 +1,7 @@
 package banking;
 
 public class CheckingAccount extends Account {
-	public CheckingAccount(int id, double apr) {
+	public CheckingAccount(String id, double apr) {
 		super(id, apr);
 		setAccountType("checking");
 	}

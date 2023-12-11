@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class CDAccountTest {
 
-	public static final int ID = 12345678;
+	public static final String ID = "12345678";
 	public static final double APR = 2.4;
 	public static final double INITIAL_BALANCE = 1000;
 	CDAccount CD;

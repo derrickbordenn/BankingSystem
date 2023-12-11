@@ -1,7 +1,6 @@
 package banking;
 
 public class CreateCommandValidator extends CommandValidator {
-
 	public CreateCommandValidator(Bank bank) {
 		super(bank);
 	}
@@ -12,14 +11,15 @@ public class CreateCommandValidator extends CommandValidator {
 		}
 
 		String accountType = commandParts[1].toLowerCase();
-		String Id = commandParts[2];
-		String Apr = commandParts[3];
+		String id = commandParts[2];
+		String apr = commandParts[3];
 
-		if (validAccountType(accountType) && validId(Id) && validApr(Apr)) {
-			int id = Integer.parseInt(Id);
-			if (bank.accountExistsByQuickID(id)) {
-				return false;
-			} else if (accountType.equals("cd")) {
+		if (bank.accountExistsByQuickID(id)) {
+			return false;
+		}
+
+		if (validAccountType(accountType) && validId(id) && validApr(apr)) {
+			if (accountType.equals("cd")) {
 				if (commandParts.length != 5) {
 					return false;
 				}

@@ -3,11 +3,11 @@ package banking;
 public abstract class Account {
 
 	private double balance;
-	private int id;
+	private String id;
 	private double apr;
 	private String accountType;
 
-	protected Account(int id, double apr) {
+	protected Account(String id, double apr) {
 		this.balance = 0.0;
 		this.id = id;
 		this.apr = apr;
@@ -38,7 +38,7 @@ public abstract class Account {
 		return balance;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

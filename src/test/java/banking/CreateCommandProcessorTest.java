@@ -18,7 +18,7 @@ public class CreateCommandProcessorTest {
 	@Test
 	void create_valid_savings_account() {
 		commandProcessor.process("create savingS 12345678 1.8");
-		double actual = bank.getAccountById(12345678).getApr();
+		double actual = bank.getAccountById("12345678").getApr();
 
 		assertEquals(1.8, actual);
 	}
@@ -26,7 +26,7 @@ public class CreateCommandProcessorTest {
 	@Test
 	void create_valid_checking_account() {
 		commandProcessor.process("create cHecKinG 12345678 1.8");
-		double actual = bank.getAccountById(12345678).getApr();
+		double actual = bank.getAccountById("12345678").getApr();
 
 		assertEquals(1.8, actual);
 	}
@@ -34,7 +34,7 @@ public class CreateCommandProcessorTest {
 	@Test
 	void create_valid_CD_account() {
 		commandProcessor.process("create Cd 12345678 2.4 1500");
-		double actual = bank.getAccountById(12345678).getApr();
+		double actual = bank.getAccountById("12345678").getApr();
 
 		assertEquals(2.4, actual);
 	}

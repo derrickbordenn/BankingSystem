@@ -17,7 +17,8 @@ public class CommandStore {
 	}
 
 	public void addValidCommand(String command) {
-		validCommands.add(command);
+		String validCommand = command.substring(0, 1).toUpperCase() + command.substring(1);
+		validCommands.add(validCommand);
 	}
 
 	public List<String> getAllInvalidCommands() {

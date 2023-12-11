@@ -9,11 +9,9 @@ public class DepositCommandValidator extends CommandValidator {
 		if (commandParts.length != 3) {
 			return false;
 		}
-		String Id = commandParts[1];
+		String id = commandParts[1];
 		String amount = commandParts[2];
-		if (validId(Id) && validAmount(amount)) {
-
-			int id = Integer.parseInt(Id);
+		if (validId(id) && validAmount(amount)) {
 			double depositAmount = Double.parseDouble(amount);
 			String accountType = bank.getAccountType(id);
 			if (bank.accountExistsByQuickID(id)) {
