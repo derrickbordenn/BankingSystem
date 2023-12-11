@@ -17,7 +17,7 @@ public class TransferCommandValidator extends CommandValidator {
 		String Amount = commandParts[3];
 		validateDeposit = new DepositCommandValidator(bank);
 		validateWithdraw = new WithdrawCommandValidator(bank);
-		if (validId(fromID) && validId(toID) && validAmount(Amount)) {
+		if (validId(fromID) && validId(toID) && validAmount(Amount) && (!fromID.equals(toID))) {
 			int fromId = Integer.parseInt(fromID);
 			int toId = Integer.parseInt(toID);
 			String depositString = "deposit " + toID + " " + Amount;

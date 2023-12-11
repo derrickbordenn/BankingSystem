@@ -826,4 +826,13 @@ public class CommandValidatorTest {
 
 		assertFalse(actual);
 	}
+
+	@Test
+	void cannot_transfer_to_self() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		boolean actual = commandValidator.validate("transfer 12345678 12345678 thirty");
+
+		assertFalse(actual);
+	}
 }
