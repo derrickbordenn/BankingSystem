@@ -12,23 +12,22 @@ public class CreateCommandValidator extends CommandValidator {
 
 		String accountType = commandParts[1].toLowerCase();
 		String id = commandParts[2];
-		String apr = commandParts[3];
+		String Apr = commandParts[3];
 
-		if (bank.accountExistsByQuickID(id)) {
-			return false;
-		}
-
-		if (validAccountType(accountType) && validId(id) && validApr(apr)) {
-			if (accountType.equals("cd")) {
+		if (validAccountType(accountType) && validId(id) && validApr(Apr)) {
+			if (bank.accountExistsByQuickID(id)) {
+				return false;
+			} else if (accountType.equals("cd")) {
 				if (commandParts.length != 5) {
 					return false;
 				}
 				String CDInitialBalance = commandParts[4];
 				return validInitialBalance(CDInitialBalance);
-			} else if (commandParts.length == 4) {
-				return true;
+			} else {
+				return commandParts.length == 4;
 			}
 		}
 		return false;
 	}
+
 }

@@ -62,7 +62,9 @@ public class MasterControlTest {
 		input.add("create checking 12345678 1.0");
 
 		List<String> actual = masterControl.start(input);
-		assertSingleCommand("create checking 12345678 1.0", actual);
+		assertEquals(2, actual.size());
+		assertEquals("Checking 12345678 0.00 1.00", actual.get(0));
+		assertEquals("create checking 12345678 1.0", actual.get(1));
 	}
 
 	@Test
