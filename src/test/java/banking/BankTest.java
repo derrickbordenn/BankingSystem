@@ -169,4 +169,136 @@ public class BankTest {
 		double actual = bank.getAccountById(ID).getBalance();
 		assertEquals(0, actual);
 	}
+
+	@Test
+	void transfer_between_two_checking_accounts_adds_amount_to_balance_of_receiving_account() {
+		bank.addAccount(checking);
+		bank.addAccount(new CheckingAccount(ID, APR));
+		bank.depositById(ID + 1, 300);
+		bank.transfer(ID + 1, ID, 200);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(200, actual);
+	}
+
+	@Test
+	void transfer_between_two_checking_accounts_subtracts_amount_from_balance_of_from_account() {
+		bank.addAccount(checking);
+		bank.addAccount(new CheckingAccount(ID, APR));
+		bank.depositById(ID + 1, 300);
+		bank.transfer(ID + 1, ID, 200);
+
+		double actual = bank.getAccountById(ID + 1).getBalance();
+		assertEquals(100, actual);
+	}
+
+	@Test
+	void transfer_between_two_savings_accounts_adds_amount_to_balance_of_receiving_account() {
+		bank.addAccount(savings);
+		bank.addAccount(new SavingsAccount(ID + 1, APR));
+		bank.depositById(ID, 300);
+		bank.transfer(ID, ID + 1, 200);
+
+		double actual = bank.getAccountById(ID + 1).getBalance();
+		assertEquals(200, actual);
+	}
+
+	@Test
+	void transfer_between_two_savings_accounts_subtracts_amount_from_balance_of_from_account() {
+		bank.addAccount(savings);
+		bank.addAccount(new SavingsAccount(ID + 1, APR));
+		bank.depositById(ID, 300);
+		bank.transfer(ID, ID + 1, 200);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(100, actual);
+	}
+
+	@Test
+	void transfer_from_checking_to_savings_accounts_adds_amount_to_balance_of_savings_account() {
+		bank.addAccount(checking);
+		bank.addAccount(savings);
+		bank.depositById(ID + 1, 300);
+		bank.transfer(ID + 1, ID, 200);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(200, actual);
+	}
+
+	@Test
+	void transfer_from_checking_to_savings_accounts_withdraws_amount_from_balance_of_checking_account() {
+		bank.addAccount(checking);
+		bank.addAccount(savings);
+		bank.depositById(ID + 1, 300);
+		bank.transfer(ID + 1, ID, 200);
+
+		double actual = bank.getAccountById(ID + 1).getBalance();
+		assertEquals(100, actual);
+	}
+
+	@Test
+	void transfer_from_savings_to_checking_accounts_adds_amount_to_balance_of_checking_account() {
+		bank.addAccount(savings);
+		bank.addAccount(checking);
+		bank.depositById(ID, 300);
+		bank.transfer(ID, ID + 1, 200);
+
+		double actual = bank.getAccountById(ID + 1).getBalance();
+		assertEquals(200, actual);
+	}
+
+	@Test
+	void transfer_from_savings_to_checking_accounts_withdraws_amount_from_balance_of_savings_account() {
+		bank.addAccount(savings);
+		bank.addAccount(checking);
+		bank.depositById(ID, 300);
+		bank.transfer(ID, ID + 1, 200);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(100, actual);
+	}
+
+	@Test
+	void transferring_amount_larger_than_from_checking_account_balance_adds_from_account_balance_to_receiving_account() {
+		bank.addAccount(checking);
+		bank.addAccount(new CheckingAccount(ID, APR));
+		bank.depositById(ID + 1, 300);
+		bank.transfer(ID + 1, ID, 400);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(300, actual);
+	}
+
+	@Test
+	void transferring_amount_larger_than_from_checking_account_balance_brings_from_account_balance_to_zero() {
+		bank.addAccount(checking);
+		bank.addAccount(new CheckingAccount(ID, APR));
+		bank.depositById(ID + 1, 300);
+		bank.transfer(ID + 1, ID, 400);
+
+		double actual = bank.getAccountById(ID + 1).getBalance();
+		assertEquals(0, actual);
+	}
+
+	@Test
+	void transferring_amount_larger_than_from_savings_account_balance_adds_from_account_balance_to_receiving_account() {
+		bank.addAccount(savings);
+		bank.addAccount(new SavingsAccount(ID + 1, APR));
+		bank.depositById(ID, 300);
+		bank.transfer(ID, ID + 1, 400);
+
+		double actual = bank.getAccountById(ID + 1).getBalance();
+		assertEquals(300, actual);
+	}
+
+	@Test
+	void transferring_amount_larger_than_from_savings_account_balance_brings_from_account_balance_to_zero() {
+		bank.addAccount(savings);
+		bank.addAccount(new SavingsAccount(ID + 1, APR));
+		bank.depositById(ID, 300);
+		bank.transfer(ID, ID + 1, 400);
+
+		double actual = bank.getAccountById(ID).getBalance();
+		assertEquals(0, actual);
+	}
 }

@@ -93,4 +93,14 @@ public class Bank {
 	public int withdrawalsThisMonth() {
 		return withdrawals;
 	}
+
+	public void transfer(int fromId, int toId, double amount) {
+		Account fromAccount = getAccountById(fromId);
+		Account toAccount = getAccountById(toId);
+		if (fromAccount.getBalance() < amount) {
+			amount = fromAccount.getBalance();
+		}
+		fromAccount.withdraw_money(amount);
+		toAccount.deposit_money((amount));
+	}
 }
