@@ -1,10 +1,13 @@
 package banking;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Bank {
 	private Map<Integer, Account> accounts;
+	private List<String> accountsInOrder;
 	private int time;
 	private int withdrawals;
 
@@ -12,10 +15,14 @@ public class Bank {
 		accounts = new HashMap<>();
 		time = 0;
 		withdrawals = 0;
+		accountsInOrder = new ArrayList<>();
 	}
 
 	public void addAccount(Account account) {
 		accounts.put(account.getId(), account);
+		String id = Integer.toString(account.getId());
+		accountsInOrder.add(id);
+
 	}
 
 	public Account getAccountById(int id) {
@@ -103,5 +110,9 @@ public class Bank {
 		}
 		withdrawById(fromId, amount);
 		toAccount.deposit_money((amount));
+	}
+
+	public List<String> getAccountsInOrder() {
+		return accountsInOrder;
 	}
 }
