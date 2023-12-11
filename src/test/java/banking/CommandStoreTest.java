@@ -39,4 +39,28 @@ public class CommandStoreTest {
 		assertEquals("second invalid command", actual.get(1));
 		assertEquals("third invalid command", actual.get(2));
 	}
+
+	@Test
+	void add_valid_command() {
+		String validCommand = "valid command";
+		commandStore.addValidCommand(validCommand);
+		List<String> actual = commandStore.getAllValidCommands();
+
+		assertEquals("valid command", actual.get(0));
+	}
+
+	@Test
+	void get_multiple_valid_commands() {
+		String firstCommand = "first command";
+		String secondCommand = "second command";
+		String thirdCommand = "third command";
+		commandStore.addValidCommand(firstCommand);
+		commandStore.addValidCommand(secondCommand);
+		commandStore.addValidCommand(thirdCommand);
+		List<String> actual = commandStore.getAllValidCommands();
+
+		assertEquals("first command", actual.get(0));
+		assertEquals("second command", actual.get(1));
+		assertEquals("third command", actual.get(2));
+	}
 }
