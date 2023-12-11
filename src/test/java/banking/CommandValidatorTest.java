@@ -278,6 +278,13 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void cd_with_zero_inital_balance() {
+		boolean actual = commandValidator.validate("create CD 12345678 2.4 0");
+
+		assertFalse(actual);
+	}
+
+	@Test
 	void deposit_into_CD() {
 		bank.addAccount(new CDAccount(12345678, 2.4, 2500));
 		boolean actual = commandValidator.validate("deposit 12345678 0");
@@ -404,6 +411,15 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void withdraw_balance_from_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 250);
+		boolean actual = commandValidator.validate("withdraw 12345678 250");
+
+		assertTrue(actual);
+	}
+
+	@Test
 	void withdraw_zero_from_checking() {
 		bank.addAccount(new CheckingAccount(12345678, 2.4));
 		boolean actual = commandValidator.validate("withdraw 12345678 0");
@@ -423,6 +439,15 @@ public class CommandValidatorTest {
 	void withdraw_maximum_amount_from_checking() {
 		bank.addAccount(new CheckingAccount(12345678, 2.4));
 		boolean actual = commandValidator.validate("withdraw 12345678 400");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void withdraw_balance_from_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		bank.depositById(12345678, 200);
+		boolean actual = commandValidator.validate("withdraw 12345678 200");
 
 		assertTrue(actual);
 	}
