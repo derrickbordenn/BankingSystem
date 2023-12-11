@@ -22,6 +22,9 @@ public class CommandProcessor {
 		} else if (commandType.equals("pass")) {
 			PassTimeCommandProcessor passTimeCommandProcessor = new PassTimeCommandProcessor(bank);
 			passTimeCommandProcessor.processPassTimeCommand(commandParts);
+		} else if (commandType.equals("transfer")) {
+			TransferCommandProcessor transferCommandProcessor = new TransferCommandProcessor(bank);
+			transferCommandProcessor.processTransferCommand(commandParts);
 		}
 	}
 }
