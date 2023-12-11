@@ -13,6 +13,9 @@ public class CommandProcessor {
 		if (commandType.equals("create")) {
 			CreateCommandProcessor createCommandProcessor = new CreateCommandProcessor(bank);
 			createCommandProcessor.processCreateCommand(commandParts);
+		} else if (commandType.equals("deposit")) {
+			DepositCommandProcessor depositCommandProcessor = new DepositCommandProcessor(bank);
+			depositCommandProcessor.processDepositCommand(commandParts);
 		}
 	}
 }
