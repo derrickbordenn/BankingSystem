@@ -8,7 +8,7 @@ public class WithdrawCommandValidator extends CommandValidator {
 	}
 
 	public boolean validateWithdrawCommand(String[] commandParts) {
-		if (commandParts.length != 3 || bank.withdrawalsThisMonth() != 0) {
+		if (commandParts.length != 3) {
 			return false;
 		}
 
@@ -21,7 +21,7 @@ public class WithdrawCommandValidator extends CommandValidator {
 			double amount = Double.parseDouble(Amount);
 			if (bank.accountExistsByQuickID(id)) {
 				if (accountType.equals("savings")) {
-					return (amount <= 1000);
+					return (amount <= 1000 && bank.withdrawalsThisMonth() != 0);
 				} else if (accountType.equals("checking")) {
 					return (amount <= 400);
 				} else if (accountType.equals("cd")) {
