@@ -12,12 +12,24 @@ public class CommandStoreTest {
 	CommandStore commandStore;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		commandStore = new CommandStore();
 	}
 
 	@Test
-	public void add_invalid_command() {
+	void invalid_commands_starts_empty() {
+		List<String> actual = commandStore.getAllInvalidCommands();
+		assertEquals(0, actual.size());
+	}
+
+	@Test
+	void valid_commands_starts_empty() {
+		List<String> actual = commandStore.getAllValidCommands();
+		assertEquals(0, actual.size());
+	}
+
+	@Test
+	void add_invalid_command() {
 		String invalidCommand = "invalid command";
 		commandStore.addInvalidCommand(invalidCommand);
 		List<String> actual = commandStore.getAllInvalidCommands();
@@ -26,7 +38,16 @@ public class CommandStoreTest {
 	}
 
 	@Test
-	public void get_all_invalid_commands() {
+	void only_one_invalid_command() {
+		String invalidCommand = "invalid command";
+		commandStore.addInvalidCommand(invalidCommand);
+		List<String> actual = commandStore.getAllInvalidCommands();
+
+		assertEquals(1, actual.size());
+	}
+
+	@Test
+	void get_all_invalid_commands() {
 		String firstInvalidCommand = "first invalid command";
 		String secondInvalidCommand = "second invalid command";
 		String thirdInvalidCommand = "third invalid command";
@@ -63,4 +84,14 @@ public class CommandStoreTest {
 		assertEquals("Second command", actual.get(1));
 		assertEquals("Third command", actual.get(2));
 	}
+
+	@Test
+	void only_one_valid_command() {
+		String validCommand = "invalid command";
+		commandStore.addValidCommand(validCommand);
+		List<String> actual = commandStore.getAllValidCommands();
+
+		assertEquals(1, actual.size());
+	}
+
 }

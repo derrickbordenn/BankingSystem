@@ -23,6 +23,60 @@ public class TransactionHistoryTest {
 	}
 
 	@Test
+	void accountType_capitalized() {
+		Account account = new CheckingAccount("12345678", 0);
+		String status = transactionHistory.getAccountStatus(account);
+		String[] parts = status.split(" ");
+		String actual = parts[0];
+		assertEquals("Checking", actual);
+	}
+
+	@Test
+	void id_left_in_original_string_form() {
+		Account account = new CheckingAccount("12345678", 0);
+		String status = transactionHistory.getAccountStatus(account);
+		String[] parts = status.split(" ");
+		String actual = parts[1];
+		assertEquals("12345678", actual);
+	}
+
+	@Test
+	void balance_trunicated_to_two_decimals() {
+		Account account = new CheckingAccount("12345678", 0);
+		account.deposit_money(234.23432423);
+		String status = transactionHistory.getAccountStatus(account);
+		String[] parts = status.split(" ");
+		String actual = parts[2];
+		assertEquals("234.23", actual);
+	}
+
+	@Test
+	void apr_trunicated_to_two_decimals() {
+		Account account = new CheckingAccount("12345678", 2.012349873284910);
+		account.deposit_money(234.23432423);
+		String status = transactionHistory.getAccountStatus(account);
+		String[] parts = status.split(" ");
+		String actual = parts[3];
+		assertEquals("2.01", actual);
+	}
+
+	@Test
+	void id_left_in_original_string_for() {
+		Account account = new CheckingAccount("", 0);
+		String status = transactionHistory.getAccountStatus(account);
+		String[] parts = status.split(" ");
+		String actual = parts[1];
+		assertEquals("12345678", actual);
+	}
+
+	@Test
+	void no_action_wilL_return_empty_account_status() {
+		Account account = new CheckingAccount("", 0);
+		String actual = transactionHistory.getAccountStatus(account);
+		assertEquals("Checking  0.00 0.00", actual);
+	}
+
+	@Test
 	void get_status_of_empty_savings_account() {
 		Account savingsAccount = new SavingsAccount("12345768", 2.4);
 		String actual = transactionHistory.getAccountStatus(savingsAccount);

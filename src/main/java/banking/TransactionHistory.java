@@ -37,15 +37,12 @@ public class TransactionHistory {
 					String commandType = commandParts[0].toLowerCase();
 					if ((!commandType.equals("create") && !commandType.equals("pass"))
 							&& (commandParts[1].equals(id) || commandParts[2].equals(id))) {
-						String formattedCommand = command.substring(0, 1).toUpperCase() + command.substring(1);
-						output.add(formattedCommand);
+						output.add(command);
 					}
 				}
 			}
 		}
-		for (String command : invalidCommands) {
-			output.add(command);
-		}
+		output.addAll(invalidCommands);
 		return new ArrayList<>(output);
 	}
 }

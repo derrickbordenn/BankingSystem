@@ -13,4 +13,13 @@ public class PassTimeCommandValidator extends CommandValidator {
 
 		return validMonth(month);
 	}
+
+	public boolean validMonth(String month) {
+		try {
+			int Month = Integer.parseInt(month);
+			return Month >= 1 && Month <= 60;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 }

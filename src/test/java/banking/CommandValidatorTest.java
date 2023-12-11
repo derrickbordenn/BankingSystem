@@ -11,9 +11,33 @@ public class CommandValidatorTest {
 	Bank bank;
 
 	@BeforeEach
-	public void setUP() {
+	public void setUp() {
 		bank = new Bank();
 		commandValidator = new CommandValidator(bank);
+	}
+
+	@Test
+	void empty_command() {
+		boolean actual = commandValidator.validate("");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_with_negative_id() {
+		boolean actual = commandValidator.validate("create savings -1234567 2.4");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_with_short_id() {
+		boolean actual = commandValidator.validate("create savings 1234567 2.4");
+		assertFalse(actual);
+	}
+
+	@Test
+	void short_command() {
+		boolean actual = commandValidator.validate("create savings 12345678");
+		assertFalse(actual);
 	}
 
 	@Test
@@ -236,6 +260,12 @@ public class CommandValidatorTest {
 	@Test
 	void create_with_no_attributes() {
 		boolean actual = commandValidator.validate("create");
+		assertFalse(actual);
+	}
+
+	@Test
+	void create_with_id_larger_than_maximum() {
+		boolean actual = commandValidator.validate("create checking 100000000 2.4");
 		assertFalse(actual);
 	}
 
@@ -575,6 +605,12 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void empty_pass_command() {
+		boolean actual = commandValidator.validate("Pass");
+		assertFalse(actual);
+	}
+
+	@Test
 	void pass_minimum_time() {
 		boolean actual = commandValidator.validate("pass 1");
 
@@ -832,6 +868,15 @@ public class CommandValidatorTest {
 		bank.depositById("12345678", 300);
 		boolean actual = commandValidator.validate("transfer 12345678 12345678 thirty");
 
+		assertFalse(actual);
+	}
+
+	@Test
+	void short_transfer_command() {
+		bank.addSavingsAccount("12345678", 2.4);
+		bank.depositById("12345678", 300);
+		bank.addCheckingAccount("12345679", 2.4);
+		boolean actual = commandValidator.validate("transfer 12345678 12345679");
 		assertFalse(actual);
 	}
 }
