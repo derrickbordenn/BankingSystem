@@ -19,6 +19,9 @@ public class CommandProcessor {
 		} else if (commandType.equals("withdraw")) {
 			WithdrawCommandProcessor withdrawCommandProcessor = new WithdrawCommandProcessor(bank);
 			withdrawCommandProcessor.processWithdrawCommand(commandParts);
+		} else if (commandType.equals("pass")) {
+			PassTimeCommandProcessor passTimeCommandProcessor = new PassTimeCommandProcessor(bank);
+			passTimeCommandProcessor.processPassTimeCommand(commandParts);
 		}
 	}
 }
