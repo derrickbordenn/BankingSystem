@@ -762,7 +762,7 @@ public class CommandValidatorTest {
 		bank.addAccount(new CheckingAccount(12345678, 2.4));
 		bank.addAccount(new SavingsAccount(12345679, 2.4));
 		bank.depositById(12345678, 500);
-		boolean actual = commandValidator.validate("transfer 12345678 12345679 400");
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 450");
 
 		assertFalse(actual);
 	}

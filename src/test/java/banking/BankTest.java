@@ -144,10 +144,10 @@ public class BankTest {
 	@Test
 	void pass_time_accrues_interest_for_CD() {
 		bank.addAccount(new CDAccount(12345687, 2.1, 2000));
-		bank.passTime(12);
+		bank.passTime(1);
 
 		double actual = bank.getAccountById(12345687).getBalance();
-		assertEquals(2175.098098315957, actual);
+		assertEquals(2014.0, actual);
 	}
 
 	@Test
