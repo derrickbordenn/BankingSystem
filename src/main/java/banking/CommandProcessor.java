@@ -19,7 +19,6 @@ public class CommandProcessor {
 		} else if (commandType.equals("withdraw")) {
 			WithdrawCommandProcessor withdrawCommandProcessor = new WithdrawCommandProcessor(bank);
 			withdrawCommandProcessor.processWithdrawCommand(commandParts);
-
 		}
 	}
 }
