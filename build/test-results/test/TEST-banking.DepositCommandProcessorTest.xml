@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="banking.DepositCommandProcessorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-12-11T04:57:54" hostname="n3-65-76.dhcp.drexel.edu" time="0.028">
-  <properties/>
-  <testcase name="deposit_maximum_to_savings()" classname="banking.DepositCommandProcessorTest" time="0.028"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
