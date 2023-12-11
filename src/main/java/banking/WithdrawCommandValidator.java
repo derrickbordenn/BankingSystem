@@ -1,7 +1,6 @@
 package banking;
 
 public class WithdrawCommandValidator extends CommandValidator {
-	int count;
 
 	public WithdrawCommandValidator(Bank bank) {
 		super(bank);
@@ -20,7 +19,7 @@ public class WithdrawCommandValidator extends CommandValidator {
 			String accountType = bank.getAccountType(id);
 			double amount = Double.parseDouble(Amount);
 			if (bank.accountExistsByQuickID(id)) {
-				if (accountType.equals("savings") && bank.withdrawalsThisMonth() == 0) {
+				if (accountType.equals("savings") && (bank.withdrawalsThisMonth() == 0)) {
 					return (amount <= 1000);
 				} else if (accountType.equals("checking")) {
 					return (amount <= 400);

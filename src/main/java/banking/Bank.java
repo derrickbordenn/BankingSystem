@@ -11,6 +11,7 @@ public class Bank {
 	Bank() {
 		accounts = new HashMap<>();
 		time = 0;
+		withdrawals = 0;
 	}
 
 	public void addAccount(Account account) {
@@ -36,12 +37,12 @@ public class Bank {
 	public void depositById(int id, double amount) {
 		Account account = getAccountById(id);
 		account.deposit_money(amount);
-		countWithdraw();
 	}
 
 	public void withdrawById(int id, double amount) {
 		Account account = getAccountById(id);
 		account.withdraw_money(amount);
+		countWithdraw();
 	}
 
 	public boolean accountExistsByQuickID(int id) {
@@ -64,10 +65,10 @@ public class Bank {
 				} else if (balance < 100) {
 					account.withdraw_money(minimumBalanceFee);
 				} else if ((accountType.equals("savings")) || accountType.equals("checking")) {
-					account.deposit_money(calculatedMonthlyInterest(account.getApr(), account.getBalance()));
+					account.deposit_money(calculatedMonthlyInterest(apr, balance));
 				} else {
 					for (int j = 0; j < 4; j++) {
-						account.deposit_money(calculatedMonthlyInterest(account.getApr(), account.getBalance()));
+						account.deposit_money(calculatedMonthlyInterest(apr, balance));
 					}
 				}
 			}
