@@ -462,6 +462,16 @@ public class CommandValidatorTest {
 	}
 
 	@Test
+	void can_withdraw_twice_from_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		bank.depositById(12345678, 200);
+		bank.withdrawById(12345678, 100);
+		boolean actual = commandValidator.validate("withdraw 12345678 50");
+
+		assertTrue(actual);
+	}
+
+	@Test
 	void withdraw_negative_from_savings() {
 		bank.addAccount(new SavingsAccount(12345678, 2.4));
 		boolean actual = commandValidator.validate("withdraw 12345678 -200");
@@ -590,6 +600,17 @@ public class CommandValidatorTest {
 		boolean actual = commandValidator.validate("withdraw 12345678 100");
 
 		assertFalse(actual);
+	}
+
+	@Test
+	void can_withdraw_from_savings_after_passing_time() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 500);
+		bank.withdrawById(12345678, 100);
+		bank.passTime(1);
+		boolean actual = commandValidator.validate("withdraw 12345678 100");
+
+		assertTrue(actual);
 	}
 
 	@Test
