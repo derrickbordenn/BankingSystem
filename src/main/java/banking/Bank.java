@@ -101,7 +101,7 @@ public class Bank {
 		if (fromAccount.getBalance() < amount) {
 			amount = fromAccount.getBalance();
 		}
-		fromAccount.withdraw_money(amount);
+		withdrawById(fromId, amount);
 		toAccount.deposit_money((amount));
 	}
 }
