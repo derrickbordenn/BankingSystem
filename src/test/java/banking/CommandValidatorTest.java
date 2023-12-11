@@ -583,7 +583,7 @@ public class CommandValidatorTest {
 	}
 
 	@Test
-	void cannot_withdraw_twice_in_one_month() {
+	void cannot_withdraw_from_savings_twice_in_one_month() {
 		bank.addAccount(new SavingsAccount(12345678, 2.4));
 		bank.depositById(12345678, 2500);
 		bank.withdrawById(12345678, 100);
@@ -596,6 +596,187 @@ public class CommandValidatorTest {
 	void cd_cannot_withdraw_before_passing_12_months() {
 		bank.addAccount(new CDAccount(12345678, 2.4, 2000));
 		boolean actual = commandValidator.validate("withdraw 12345678 100");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void can_transfer_from_checking_to_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 200");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void can_transfer_from_checking_to_savings() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		bank.addAccount(new SavingsAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 200");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void can_transfer_from_savings_to_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		bank.addAccount(new SavingsAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 200");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void can_transfer_from_savings_to_checking() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 200");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void can_transfer_twice_from_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		bank.transfer(12345678, 12345679, 100);
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 100");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void case_insensitivity_in_transfer_command() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("traNsFer 12345678 12345679 200");
+
+		assertTrue(actual);
+	}
+
+	@Test
+	void cannot_transfer_from_cd_account() {
+		bank.addAccount(new CDAccount(12345678, 2.4, 1500));
+		bank.passTime(12);
+		bank.addAccount(new SavingsAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 1650.5080405742192");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_transfer_to_cd_account() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.addAccount(new CDAccount(12345679, 2.4, 1500));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 200");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_transfer_more_than_maximum_deposit_to_checking() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		bank.depositById(12345678, 2500);
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 1500");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_transfer_more_than_maximum_deposit_to_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		bank.depositById(12345678, 2500);
+		bank.depositById(12345678, 100);
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 2501");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_transfer_more_than_maximum_withdraw_from_savings() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.addAccount(new SavingsAccount(12345679, 2.4));
+		bank.depositById(12345678, 2500);
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 1001");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_transfer_more_than_maximum_withdraw_from_checking() {
+		bank.addAccount(new CheckingAccount(12345678, 2.4));
+		bank.addAccount(new SavingsAccount(12345679, 2.4));
+		bank.depositById(12345678, 500);
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 400");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_transfer_from_savings_twice_in_one_month() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		bank.depositById(12345678, 1000);
+		bank.transfer(12345678, 12345679, 500);
+
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 500");
+		assertFalse(actual);
+	}
+
+	@Test
+	void can_transfer_from_savings_again_after_pass_time() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		bank.depositById(12345678, 1000);
+		bank.transfer(12345678, 12345679, 500);
+		bank.passTime(1);
+
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 500");
+		assertTrue(actual);
+	}
+
+	@Test
+	void cannot_transfer_from_non_existent_account() {
+		bank.addAccount(new SavingsAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 500");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_transfer_to_non_existent_account() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 600);
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 500");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void cannot_transfer_negative_amounts() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 -200");
+
+		assertFalse(actual);
+	}
+
+	@Test
+	void non_numeric_character_in_transfer_amount() {
+		bank.addAccount(new SavingsAccount(12345678, 2.4));
+		bank.depositById(12345678, 300);
+		bank.addAccount(new CheckingAccount(12345679, 2.4));
+		boolean actual = commandValidator.validate("transfer 12345678 12345679 thirty");
 
 		assertFalse(actual);
 	}

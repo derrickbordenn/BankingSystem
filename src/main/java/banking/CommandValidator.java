@@ -28,6 +28,9 @@ public class CommandValidator {
 		} else if (commandType.equals("pass")) {
 			PassTimeCommandValidator passTimeCommandValidator = new PassTimeCommandValidator(bank);
 			return passTimeCommandValidator.validatePassTimeCommand(commandParts);
+		} else if (commandType.equals("transfer")) {
+			TransferCommandValidator transferCommandValidator = new TransferCommandValidator(bank);
+			return transferCommandValidator.validateTransferCommand(commandParts);
 		} else {
 			return false;
 		}
